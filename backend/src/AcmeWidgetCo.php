@@ -10,10 +10,26 @@ use Acme\Catalogue\ProductCatalogue;
 use Acme\Delivery\DeliveryPolicy;
 use Acme\Delivery\DeliveryTier;
 use Acme\Delivery\TieredDeliveryPolicy;
+use Acme\Http\QuoteRequestParser;
+use Acme\Http\ShopApi;
 use Acme\Offer\BuyOneGetSecondHalfPriceOffer;
 
 final class AcmeWidgetCo
 {
+    public const string CURRENCY = 'USD';
+    public const int MAXIMUM_QUANTITY_PER_PRODUCT = 99;
+
+    public static function api(): ShopApi
+    {
+        return new ShopApi(
+            self::catalogue(),
+            self::deliveryPolicy(),
+            new QuoteRequestParser(self::MAXIMUM_QUANTITY_PER_PRODUCT),
+            self::CURRENCY,
+            ...self::offers(),
+        );
+    }
+
     public static function catalogue(): ProductCatalogue
     {
         return new ProductCatalogue(

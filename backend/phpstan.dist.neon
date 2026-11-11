@@ -3,6 +3,7 @@ parameters:
     paths:
         - src
         - tests
+        - public
     tmpDir: .phpstan-cache
     ignoreErrors:
         - identifier: missingType.iterableValue
